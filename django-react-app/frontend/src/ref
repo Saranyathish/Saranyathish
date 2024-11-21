@@ -1,0 +1,229 @@
+import React, { useState } from "react";
+import { Offcanvas, Button, Table } from "react-bootstrap"; // Ensure you have react-bootstrap installed
+import axios from "axios";
+
+const UploadOffcanvas = ({ show, handleClose,onSendData}) => {
+  const [file, setFile] = useState(null);
+  const [data, setData] = useState([]);
+  const [errors, setErrors] = useState([]);
+  
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]); // Ensure file is correctly set
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      alert("Please select a file first!"); // Alert if no file is selected
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file); // Attach the file to the form data
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/upload-file/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Handle successful upload response
+      setData(response.data.data); // Set the uploaded file data
+      setErrors(response.data.errors); // Set any errors
+      if (response.data.errors.length === 0) {
+        alert("File uploaded successfully!");
+      } else {
+        alert("File uploaded, but errors were found.");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("File upload failed. Please try again and Check Your File."); // Failure alert
+    }
+  };
+
+  
+
+  return (
+    <>
+      <Offcanvas show={show} onHide={handleClose} placement="start">
+        <h5 style={{ marginTop: "10px" }}>Download Template</h5>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Upload File</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          {/* File Input */}
+          <input
+            type="file"
+            className="form-control"
+            onChange={handleFileChange} // Bind the onChange event
+          />
+          {/* Upload Button */}
+          <Button variant="primary" className="mt-3" onClick={handleUpload}>
+            Upload
+          </Button>
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      {/* Display errors if any */}
+      {errors.length > 0 && (
+        <div style={{ marginTop: "10px", padding: "2px", backgroundColor: "#f70a1d" }}>
+          <h4>Errors found: Your File</h4>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Row</th>
+                <th>Column</th>
+                <th>Value</th>
+                <th>Error</th>
+              </tr>
+            </thead>
+            <tbody>
+              {errors.map((error, index) => (
+                <tr key={index}>
+                  <td>{error.row}</td>
+                  <td>{error.column}</td>
+                  <td>{error.value}</td>
+                  <td>{error.error}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      )}
+
+      Display the data
+      {data.length > 0 && (
+        <div>
+          <h4>Uploaded Data:</h4>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                {Object.keys(data[0]).map((key, index) => (
+                  <th key={index}>{key}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((row, index) => (
+                <tr key={index}>
+                  {Object.values(row).map((value, idx) => (
+                    <td key={idx}>{value}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default UploadOffcanvas;
+============================================================================
+import React, { useState } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import UploadOffcanvas from './UploadOffcanvas ';
+
+const OrderGrid = () => {
+  const navigate = useNavigate();
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [rowData, setRowData] = useState([]); // Row data state for AG Grid
+
+  const columnDefs = [
+    { headerName: "Action (Source)", field: "actionSource", editable: true },
+    { headerName: "Pick Up Location (Source)", field: "pickUpLocation", editable: true },
+    { headerName: "Drop Location (Destination)", field: "dropLocation", editable: true },
+    { headerName: "Order Number", field: "orderNumber", editable: true },
+    { headerName: "Invoicing Date (M/D/YYYY)", field: "invoicingDate", editable: true },
+    { headerName: "Quantity", field: "quantity", editable: true },
+    { headerName: "Dealer Available Time (From 00:00)", field: "dealerAvailableTimeFrom", editable: true },
+    { headerName: "Dealer Available Time (To 23:59)", field: "dealerAvailableTimeTo", editable: true },
+    { headerName: "Volume (M3)", field: "volume", editable: true },
+    { headerName: "Weight (Kgs)", field: "weight", editable: true },
+    { headerName: "Delivery Date (M/D/YYYY)", field: "deliveryDate", editable: true },
+  ];
+
+  const onGridReady = (params) => {
+    params.api.sizeColumnsToFit();
+  };
+
+  const handleDataFromChild = (childData) => {
+    setRowData(childData); // Update AG Grid row data with uploaded file data
+  };
+
+  return (
+    <Container>
+      <h3 style={{ marginTop: "20px" }}>Run New Plan</h3>
+      <ButtonGroup style={{ marginTop: "40px" }}>
+        <ActionButton onClick={() => navigate('/create')}>Create</ActionButton>
+        <ActionButton onClick={() => setShowOffcanvas(true)}>Upload</ActionButton>
+      </ButtonGroup>
+
+      <UploadOffcanvas
+        show={showOffcanvas}
+        handleClose={() => setShowOffcanvas(false)}
+        onSendData={handleDataFromChild} // Pass handle function to receive data
+      />
+
+      <div className="ag-theme-alpine" style={{ height: '400px', width: '1600px', marginTop: '20px' }}>
+        <AgGridReact
+          onGridReady={onGridReady}
+          columnDefs={columnDefs}
+          rowData={rowData} // Bind updated row data to AG Grid
+          defaultColDef={{ resizable: true }}
+        />
+      </div>
+      <SubmitButton onClick={() => console.log('Submit clicked!')}>Submit & Run Plan</SubmitButton>
+    </Container>
+  );
+};
+
+// Styled components for layout and buttons
+const Container = styled.div`
+  position: relative;
+  padding: 20px;
+`;
+
+const ButtonGroup = styled.div`
+  position: absolute;
+  top: 4px; 
+  right: 20px;
+  display: flex;
+  gap: 10px;
+`;
+
+const ActionButton = styled.button`
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #218838;
+  }
+`;
+
+const SubmitButton = styled.button`
+  display: block;
+  margin: 20px auto;
+  padding: 12px 40px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+export default OrderGrid;

@@ -1,0 +1,75 @@
+/* Default for extra small screens (less than 576px) */
+@media (max-width: 575.98px) {
+    /* Adjust padding and margin for the main container */
+    .container-fluid {
+      margin-top: 20px !important;
+      padding-top: 20px !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  
+    /* Stack elements vertically */
+    .col-md-4, .col-md-8 {
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-top: 20px !important;
+    }
+  
+    /* Adjust button styles */
+    .btn-mm {
+      width: 100%; /* Full-width buttons */
+      margin-bottom: 10px;
+    }
+  
+    /* Hide vertical divider */
+    .col-md-1 {
+      display: none;
+    }
+  }
+  
+  /* Small devices (landscape phones, 576px and up) */
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    /* Adjust margin for better visibility */
+    .container-fluid {
+      margin-top: 10%;
+    }
+  
+    /* Full width for certain elements */
+    .col-md-4, .col-md-8 {
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+  
+    /* Hide vertical divider */
+    .col-md-1 {
+      display: none;
+    }
+  }
+  
+  /* Medium devices (tablets, 768px and up) */
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    /* Adjust the right section for better alignment */
+    .col-md-8 {
+      padding-left: 10px;
+    }
+  
+    /* Adjust the button size */
+    .btn-mm {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+    }
+  }
+  
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    /* Adjust top margin */
+    .container-fluid {
+      margin-top: 5%;
+    }
+  
+    /* Vertical divider adjustments for larger screens */
+    .col-md-1 {
+      display: flex;
+    }
+  }
+  
