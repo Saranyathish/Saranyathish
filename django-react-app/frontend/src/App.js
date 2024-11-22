@@ -25,7 +25,7 @@ function App() {
             <Route path="/home" element={<Home />} />  {/* Home route */}
             <Route path="/" element={<Login />} /> {/* Default to Login */}
             <Route path="/order" element={<OrderForm />} /> {/* Order Form */}
-            <Route path="/dispatch" element={<DispatchPlan />} /> {/* Order Form */}
+            <Route path="/dispatch-plan" element={<DispatchPlan />} /> {/* Order Form */}
             <Route path="/create" element={<CreatePage />} /> {/* Create Page */}
           </Routes>
         </Content>

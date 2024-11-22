@@ -67,7 +67,7 @@ const DispatchPlan = () => {
   const columnDefs = [
     { headerName: "Plan History", field: "planHistory", cellRenderer: renderPlanHistoryViewIcon },
     { headerName: "Drop Details", field: "dropDetails", cellRenderer: renderDropDetailsViewIcon },
-    { headerName: "Generate Plan", field: "generatePlan", cellRenderer: renderGeneratePlanIcon },  // Added cellRenderer here
+    { headerName: "Generate Plan", field: "generatePlan", cellRenderer: renderGeneratePlanIcon },  
     { headerName: "Order ID", field: "orderId", editable: true },
     { headerName: "No of Runs", field: "noOfRuns", editable: true },
     { headerName: "Created On", field: "createdOn", editable: true },
