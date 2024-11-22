@@ -32,7 +32,7 @@ const UploadOffcanvas = ({ show, handleClose,onSendData}) => {
       // Handle successful upload response
       setData(response.data.data); // Set the uploaded file data
       setErrors(response.data.errors); // Set any errors
-      onSendData(response.data.data);
+      onSendData(response.data.data,response.data.errors);
 
 
       if (response.data.errors.length === 0) {
