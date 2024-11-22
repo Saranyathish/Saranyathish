@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -13,23 +13,27 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-
+  
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/user/register/", {
-        username,
+      const response = await axios.post("http://127.0.0.1:8000/api/user/login/", {
+        email,
         password,
       });
-
-      if (response.status === 201) {
-        setMessage("User registered successfully! You can now log in.");
-        navigate('/home');
+  
+      if (response.status === 202) {
+        setMessage(`Welcome, ${response.data.username}!`);
+        navigate('/home'); // Redirect to home page after successful login
       } else {
         setMessage("An unexpected response was received.");
       }
     } catch (error) {
-      console.error("Error registering user:", error);
-      setMessage("Registration failed. Please try again.");
+      console.error("Error logging in user:", error);
+      if (error.response && error.response.data) {
+        // Handle error responses from the server
+        setMessage(error.response.data.error || "Login failed. Please try again.");
+      } else {
+        setMessage("Login failed. Please try again.");
+      }
     }
   };
 
@@ -40,8 +44,8 @@ function Login() {
         <Label>Username:</Label>
         <Input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <Label>Password:</Label>

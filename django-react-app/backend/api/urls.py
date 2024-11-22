@@ -1,10 +1,16 @@
+from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import TaskViewSet
+# from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-router = DefaultRouter()
-router.register('tasks', TaskViewSet)
+
+
+from django.urls import path
+from api import views
+from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/user/register/', views.UserRegisterView.as_view(), name='user_register'),
+    path('api/user/login/', views.UserLoginView.as_view(), name='user_login'),
+    path('upload-file/',views.UploadExcel.as_view(),name="upload_excel"),
+    path('upload-error/',views.UploadExcel.as_view(),name="upload_excel")
 ]
