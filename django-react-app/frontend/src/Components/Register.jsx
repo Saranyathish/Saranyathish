@@ -11,6 +11,10 @@ const Register = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   
+  const a = ()=>{
+    navigate('/login')
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -54,7 +58,8 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         
-        <Button>Register</Button>
+        <Button>Register</Button><br></br>
+        <Button onClick={a}>Login</Button>
       </Form>
       {message && <p>{message}</p>}
     </Container>
@@ -99,4 +104,4 @@ const Button = styled.button`
   }
 `;
 
-export default Register;
+export default Register;

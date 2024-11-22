@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DispatchPlan from './Components/DispatchPlan';
 
 
+
 function App() {
   return (
     <>
@@ -23,9 +24,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<Home />} />  {/* Home route */}
-            <Route path="/" element={<Login />} /> {/* Default to Login */}
+            <Route path="/" element={<Register />} /> {/* Default to Login */}
             <Route path="/order" element={<OrderForm />} /> {/* Order Form */}
-            <Route path="/dispatch" element={<DispatchPlan />} /> {/* Order Form */}
+            <Route path="/dispatch-plan" element={<DispatchPlan />} /> {/* Order Form */}
             <Route path="/create" element={<CreatePage />} /> {/* Create Page */}
           </Routes>
         </Content>
@@ -41,4 +42,4 @@ const Content = styled.div`
   height: 80vh;
 `;
 
-export default App;
+export default App;
