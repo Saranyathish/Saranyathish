@@ -102,17 +102,24 @@ const OrderGrid = () => {
       </div>
       )}
       {data.length > 0 && (
-      <div className="ag-theme-alpine" style={{ height: '400px', width: '1600px', marginTop: '20px' }} onLoad={()=>{dataLoading(data)}}>
-        <AgGridReact
-          onGridReady={onGridReady}
-          columnDefs={columnDefs}
-          rowData={rowData}
-          defaultColDef={{ resizable: true }}
-        />
-      </div>
-  )}
-    <SubmitButton id={"button"}  onClick={() => alert('Submit Successfully')} disabled={isDisabled}>Submit & Run Plan</SubmitButton>
-  
+        <div
+          className="ag-theme-alpine"
+          style={{ height: "400px", width: "1600px", marginTop: "20px" }}
+          onLoad={() => {
+            dataLoading(data);
+          }}
+        >
+          <AgGridReact
+            onGridReady={onGridReady}
+            columnDefs={columnDefs}
+            rowData={rowData}
+            defaultColDef={{ resizable: true }}
+          />
+        </div>
+      )}
+      <SubmitButton onClick={() => console.log("Submit clicked!")}>
+        Submit & Run Plan
+      </SubmitButton>
     </Container>
   );
 };
