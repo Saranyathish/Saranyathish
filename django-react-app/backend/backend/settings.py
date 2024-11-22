@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import djongo
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-)^we=y2r+2-zt2_i-#96+0vgi7%51j+1c#mm!-(8##kpkp#$+&"
+SECRET_KEY = 'django-insecure-)^we=y2r+2-zt2_i-#96+0vgi7%51j+1c#mm!-(8##kpkp#$+&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',  # Add for handling CORS
     'api',
     'rest_framework_simplejwt',
+    'djongo',
 ]
 
 REST_FRAMEWORK = {
@@ -59,8 +60,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -93,14 +92,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'django-react-app',  # Replace with your MongoDB database name
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017',
+        }
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
