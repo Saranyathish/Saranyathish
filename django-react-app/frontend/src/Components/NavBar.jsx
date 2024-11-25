@@ -21,7 +21,7 @@ const Navbar = () => {
         <LogoImage src={logo} alt="Company Logo" /> {/* Display the logo image */}
         <LogoText>Dispatch Planning</LogoText> {/* Optionally, you can include a company name */}
       </LogoContainer>
-      <LogoutIcon onClick={handleLogout}><CiLogout />Logout</LogoutIcon> {/* Replace with an icon if desired */}
+      <LogoutIcon onClick={handleLogout}><CiLogout /></LogoutIcon> {/* Replace with an icon if desired */}
     </Nav>
   );
 };
