@@ -189,7 +189,7 @@ const OrderGrid = () => {
         onSendData={handleDataFromChild}
       />
 
-      <div className="ag-theme-alpine" style={{ height: '400px', width: '1600px', marginTop: '20px' }}>
+      <div className="ag-theme-alpine" style={{ height: '410px', width: '1600px', marginTop: '20px' }}>
         <AgGridReact
           onGridReady={onGridReady}
           columnDefs={columnDefs}
